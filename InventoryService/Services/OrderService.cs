@@ -93,6 +93,8 @@ public class OrderService : IOrderService
             if (product == null)
                 throw new AppException($"Product {item.ProductId} tidak ditemukan", 404);
 
+            //atomix sql
+
             var affected = await _db.Database.ExecuteSqlInterpolatedAsync($@"
                 UPDATE Products
                 SET StockQty = StockQty - {item.Quantity}
@@ -340,7 +342,7 @@ public class OrderService : IOrderService
         {
             await _db.Database.ExecuteSqlInterpolatedAsync($@"
             UPDATE Products
-            SET StockQuantity = StockQuantity + {item.Quantity}
+            SET StockQty = StockQty + {item.Quantity}
             WHERE Id = {item.ProductId}
         ");
         }
